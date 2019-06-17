@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load staticfiles %}
+
+
+{% block content %}
+
+<div class="container">
+  <div class="row top">
+    <div class="col-md-12"></div>
+  </div>
+
+<div class="text-center">
+  <div class="user-image">
+    <img src="{{profile.avatar.url}}" class="gallery-image" alt=""  >
+  </div>
+  <p style="font-size: 22px; font-weight:bold;margin:auto; padding:2px;">{{profile.username}}</p>
+  <p style="font-size: 22px; font-weight:bold;margin:auto;">{{profile.firstname}} {{profile.lastname}}</p>
+  <p style="font-size:22px;font-weight:bold;">{{profile.description |safe}}</p>
+  <p class="card-text" style="font-size:18px;color:white;font-weight:bold;">Email: {{profile.email}}</p>
+
+  {% ifequal profile.username current_user%}
+  <button class="btn btn-primary btn-lg explore-button">Edit Profile</button>
+  {% endifequal %}
+
+  {% ifequal profile.type user_type%}
+  &nbsp&nbsp
+  <button class="btn btn-primary btn-lg explore-button">Upload Game</button>
+  <br><br>
+
+  {% if games %}
+  <div class="text-center game-name">
+    <h1>Your Games</h1>
+  </div>
+    <div class="row">
+      {% for game in games%}
+      <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <a href="/download/{{game.id}}">
+          <div class="card card-game" style="width:18rem;height:25rem;margin-bottom:25px;">
+            <img class="card-img-top dark" src="{{game.game_cover.url}}" style="width:18rem;height:25rem;">
+            <div class="centered text-center">
+              <h4 class="game-name">{{game.name}}</h4>
+            </div>
+          </div>
+        </a>
+      </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  {% endifequal %}
+
+
+
+
+
+</div>
+
+</div>
+<style>
+.top{
+  margin-top: 10px;
+}
+h5{
+  font-size: 30px;
+  text-align: center;
+}
+h6{
+  text-align: center;
+}
+.user-image {
+    /* width: calc(25.333% ); */
+    border-radius: 50%;
+    display: inline-flex;
+}
+p{
+  color: white;
+}
+.user-image img {
+  width: 305px;
+  height: 305px;
+  background-size: cover;
+  display: block;
+  -webkit-border-radius: 300px;
+  -moz-border-radius: 300px;
+}
+.centered {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+.card-game {
+  position: relative;
+  overflow: hidden;
+}
+.card-game img {
+  filter: brightness(50%);
+  max-width: 100%;
+  -moz-transition: all 0.3s;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.card-game:hover img {
+  -moz-transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+  transform: scale(1.1);
+  filter: brightness(40%);
+}
+.game-name{
+  color:white;
+  font-family: 'Julius Sans One', sans-serif;
+  font-weight: bold;
+}
+</style>
+{% endblock %}
